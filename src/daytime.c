@@ -7,10 +7,10 @@
 #include <string.h>
 #include <strings.h>
 
-int init_client(uint port, char* ip, struct sockaddr_in* servaddr){
+int init_client(uint port, char* ip, struct sockaddr_in* servaddr, size_t size){
    printf("[+] init client\n");
    int sockfd;
-   bzero(servaddr, sizeof(*servaddr));
+   bzero(servaddr, size);
    get_err((sockfd = socket(AF_INET, SOCK_STREAM, 0)));
    servaddr->sin_family = AF_INET;
    servaddr->sin_port = htons(port);
@@ -18,8 +18,8 @@ int init_client(uint port, char* ip, struct sockaddr_in* servaddr){
    return sockfd;
 }
 void connect_client(int sockfd, struct sockaddr_in* servaddr){
-   printf("[+] connect client\n");
    get_sys_err(connect(sockfd, (const struct sockaddr*)servaddr, sizeof(*servaddr)));
+   printf("[+] connect client\n");
 }
 void get_input(int sockfd){
    int bytes = 0;
@@ -33,6 +33,7 @@ void get_input(int sockfd){
 }
 
 void init_server(uint port, char* ip){
+   printf("[+] init server\n");
 }
 
 void get_err(int res){
